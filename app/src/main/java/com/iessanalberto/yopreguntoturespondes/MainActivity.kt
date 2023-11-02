@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,10 +26,43 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.iessanalberto.yopreguntoturespondes.ui.theme.YoPreguntoTuRespondesTheme
 
 class MainActivity : ComponentActivity() {
+
+    var listaPreguntas = mutableListOf(
+        "¿Cuál es el videojuego más vendido de la historia?",
+        "¿Cuál es el mamífero más pesado del mundo?",
+        "¿Cuál es el elemento químico con mayor densidad?",
+        "¿Cuál es la velocidad del sonido en m/s?",
+        "¿Cuál es la capacidad siguiente al Terabyte?"
+    )
+
+    var listaRespuestas = mutableListOf(
+        "Tetris",
+        "Ballena Azul",
+        "Osmio",
+        "343",
+        "Petabyte"
+    )
+
+    val listaPreguntas2 = mutableListOf(
+        "¿Cuál es el videojuego más vendido de la historia?",
+        "¿Cuál es el mamífero más pesado del mundo?",
+        "¿Cuál es el elemento químico con mayor densidad?",
+        "¿Cuál es la velocidad del sonido en m/s?",
+        "¿Cuál es la capacidad siguiente al Terabyte?"
+    )
+
+    val listaRespuestas2 = mutableListOf(
+        "Tetris",
+        "Ballena Azul",
+        "Osmio",
+        "343",
+        "Petabyte"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,24 +83,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun PantallaJuego() {
 
-        val listaPreguntas = mutableListOf(
-            "¿Cuál es el videojuego más vendido de la historia?",
-            "¿Cuál es el mamífero más pesado del mundo?",
-            "¿Cuál es el elemento químico con mayor densidad?",
-            "¿Cuál es la velocidad del sonido en m/s?",
-            "¿Cuál es la capacidad siguiente al Terabyte?"
-        )
-
-        val listaRespuestas = mutableListOf(
-            "Tetris",
-            "Ballena Azul",
-            "Osmio",
-            "343",
-            "Petabyte"
-        )
-
         val context = LocalContext.current
-
 
         var maxPreguntas by rememberSaveable {
             mutableStateOf(0)
@@ -95,14 +112,15 @@ class MainActivity : ComponentActivity() {
         )
         {
             Box(modifier = Modifier.padding(16.dp)) {
-
+                Image(painterResource(id = R.drawable.trivia), contentDescription = "")
             }
 
             BasicTextField(
                 value = pregunta,
                 onValueChange = { pregunta = it },
-                singleLine = true,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
+                textStyle = MaterialTheme.typography.titleMedium,
+                singleLine = true
             )
 
             TextField(
@@ -129,6 +147,8 @@ class MainActivity : ComponentActivity() {
                 respuestaUsuario = ""
 
                 if (maxPreguntas == 3) {
+                    listaPreguntas = listaPreguntas2
+                    listaRespuestas = listaRespuestas2
                     maxPreguntas = 0
                     puntuacion = 0
                     pregunta = listaPreguntas.random()
@@ -137,7 +157,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-
             ) {
                 Text(text = "Validar Respuesta")
             }
@@ -145,8 +164,6 @@ class MainActivity : ComponentActivity() {
             Text(text = "Puntuación: $puntuacion")
         }
     }
-
-
 }
 
 
